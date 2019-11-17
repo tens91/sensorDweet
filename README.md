@@ -1,6 +1,6 @@
 # sensorDweet Readme
 
----
+## Information
 
 student number	*x15011887*
 
@@ -10,9 +10,11 @@ module		*IoT Principles*
 
 ---
 
-## description
+## Description
 
 Take sensor readings using RaspberryPi & GrovePi sensors. Push the sensor data to the cloud ([dweet.io](https://dweet.io) API) using the Python client [dweepy](https://github.com/paddycarey/dweepy). Make a HTML web page to display sensor data visualizations using JavaScript.
+
+---
 
 ### Sensors
 
@@ -23,4 +25,6 @@ The sensors used in this project were:
 3. Button [info](http://wiki.seeedstudio.com/Grove-Button/)
 
 
+## Demonstrationi
 
+Link to video will go here§
