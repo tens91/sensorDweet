@@ -1,9 +1,9 @@
 import time
 import datetime
-import grovepi
 import dweepy
 import json
-
+import grovepi
+from grovepi import *
 """
 Three sensors to be used for collecting data which
 will be emitted to Dweet.io via Post request with DweePy
@@ -46,11 +46,17 @@ def makeDict():
     sensor_data["Button"] = getButtonState()
     return sensor_data
 
+#print(makeDict())
+
+
 # Here dweepy is used to post the data as a JSON payload
+
+
 def post(sensor_data):
     digitalWrite(led,1)
     dweet_thing = "x15011887_2019"
     dweepy.dweet_for(dweet_thing, sensor_data)
+
 
 while True:
     try:
@@ -72,3 +78,6 @@ while True:
 
     except:
         print("something is wonky")
+        time.sleep(2)
+
+
