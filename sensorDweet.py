@@ -3,35 +3,31 @@ import datetime
 import grovepi
 import dweepy
 import json
-from grovepi import *
 
 """
 Three sensors to be used for collecting data which
-will be emitted to Dweet.io using HTTP Posti
+will be emitted to Dweet.io via Post request with DweePy
  * Ultrasonic Ranger
  * Button
  * Light Sensor
 """
 
-# mapping light sensor to analog port 0 (A0)
-light_sensor = 0
+# mapping sensors to their port
+light_sensor = 0      # Analog port 0  (A0)
+button = 2            # Digital port 2 (D2)
+ultrasonic_ranger = 3 # Digital port 3 (D3)
+led = 4               # Digital port 4 (D4)
+
+# specifies if the sensor behaves as input 
+# or output:    pinMode(pin, mode)
+grovepi.pinMode(led,"OUTPUT")            
+grovepi.pinMode(button,"INPUT")
 grovepi.pinMode(light_sensor,"INPUT")
 
-
-# mapping button to digital port 2 (D2)
-button = 2
-grovepi.pinMode(button,"INPUT")
-
-# mapping ultrasonic ranger to ditital port 3 (D3)
-ultrasonic_ranger = 3
-
-# mapping the red LED to digital port 4 (D4)
-led = 4
-grovepi.pinMode(led,"OUTPUT")
-
 def getTime():
-    return time.time()
+    return int(time.time())
     
+# each sensor has its own method for collecting data
 def getLuminosity():
     return grovepi.analogRead(light_sensor)
 
@@ -47,23 +43,25 @@ def makeDict():
     sensor_data["Time"] = getTime()
     sensor_data["Distance"] = getDistance()
     sensor_data["Luminosity"] = getLuminosity()
-    sensor_data["Buton"] = getButtonState()
-    print("returning sensor_data")
+    sensor_data["Button"] = getButtonState()
     return sensor_data
-    
+
+# Here dweepy is used to post the data as a JSON payload
 def post(sensor_data):
     digitalWrite(led,1)
-    dweet_thing = "x15011887_2019-test"
-    # remove test for prod version
+    dweet_thing = "x15011887_2019"
     dweepy.dweet_for(dweet_thing, sensor_data)
 
 while True:
     try:
         sensor_data = makeDict();
         post(sensor_data)
+        print("(led on) posting data")
         print(sensor_data)
         digitalWrite(led,0)
-        time.sleep(2)
+        print("(led off) post complete")
+        print("")
+        time.sleep(5)
 
     except IOError:
         print(IOError)
