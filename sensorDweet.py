@@ -36,19 +36,36 @@ def getButtonState():
     return grovepi.digitalRead(button)
 
 def makeDict():
-    dict = {}
-    dict["Description"] = "IOT CA Project"
-    dict["Time"] = getTime()
-    dict["Distance"] = getDistance()
-    dict["Luminosity"] = getLuminosity()
-    dict["Buton"] = getButton()
-    return dict
+    sensor_data = {}
+    sensor_data["Description"] = "IOT CA Project"
+    sensor_data["Time"] = getTime()
+    sensor_data["Distance"] = getDistance()
+    sensor_data["Luminosity"] = getLuminosity()
+    sensor_data["Buton"] = getButtonState()
+    print("----make dict output----")
+    print(sensor_data)
+    print("returning sensor_data")
+    return sensor_data
+    print("------------------------")
 
-print(dict)
-
-"""
-def post(sensors_data)
+    
+def post(sensor_data):
     dweet_thing = "x15011887_2019-test"
     # remove test for prod version
-    print(dweepy.dweet_for(dweet_thing, sensors_data))
-"""
+    print(dweepy.dweet_for(dweet_thing, sensor_data))
+
+while True:
+    try:
+        sensor_data = makeDict();
+        post(sensor_data)
+        print(sensor_data)
+        time.sleep(2)
+
+    except IOError:
+        print(IOError)
+
+    except KeyboardInterrupt:
+        exit()
+
+    except e:
+        print(e)
